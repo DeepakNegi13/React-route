@@ -14,8 +14,8 @@ function App() {
 		<div className="min-h-screen bg-background text-text font-sans">
 			<Navbar />
 			<Routes>
-				<Route path="/Home" element={<Home />}></Route>
-				<Route path="/home/recipe/:id" element={<Recipe id={RecipePage}/>}></Route>
+				<Route path="/" element={<Home />}></Route>
+				<Route path="/recipe/:id" element={<Recipe id={RecipePage}/>}></Route>
 				<Route path="*" element={<NotFound />}></Route>
 			</Routes>
 		</div>

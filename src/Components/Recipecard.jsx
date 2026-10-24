@@ -1,10 +1,12 @@
+import { Link } from "react-router";
+
 function RecipeCard({ recipe }) {
   const totalTime = recipe.prepTimeMinutes + recipe.cookTimeMinutes;
 
   return (
-    <a
-      href="#"
-      className="bg-card border border-border rounded-md hover:border-accent overflow-hidden flex flex-col"
+    <Link
+      to={`/recipe/${recipe.id}`}
+      className="bg-card border border-border rounded-md hover:border-accent overflow-hidden flex flex-col hover:-translate-z-2 hover:scale-110 transition-all duration-200"
     >
       <img
         src={recipe.image}
@@ -34,7 +36,7 @@ function RecipeCard({ recipe }) {
           </span>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
