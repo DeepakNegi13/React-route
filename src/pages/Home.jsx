@@ -15,6 +15,7 @@ function Home() {
 	useEffect(() => {
 		fetchApi(setRecipe);
 	}, []);
+	
 	return (
 		<main className="max-w-6xl mx-auto px-4 py-8">
 			<form className="flex gap-2 max-w-md mx-auto mb-8">

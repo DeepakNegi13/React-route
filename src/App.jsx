@@ -3,19 +3,19 @@ import Navbar from "./Components/Navbar";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import { useParams } from "react-router";
-import Recipe from "./pages/Recipe";
+import Recipe from "./pages/RecipeDetail";
 
-function RecipePage() {
-	const { id } = useParams();
-  return id;
-}
 function App() {
 	return (
 		<div className="min-h-screen bg-background text-text font-sans">
 			<Navbar />
 			<Routes>
 				<Route path="/" element={<Home />}></Route>
-				<Route path="/recipe/:id" element={<Recipe id={RecipePage}/>}></Route>
+				<Route
+					path="/recipe/:id"
+					element={
+						<Recipe  />
+					}></Route>
 				<Route path="*" element={<NotFound />}></Route>
 			</Routes>
 		</div>
