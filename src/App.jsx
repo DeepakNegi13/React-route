@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router";
 import Navbar from "./Components/Navbar";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
-import { useParams } from "react-router";
 import Recipe from "./pages/RecipeDetail";
 
 function App() {

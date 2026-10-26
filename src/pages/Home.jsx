@@ -1,21 +1,28 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import RecipeCard from "../Components/Recipecard";
-async function fetchApi(setRecipe) {
-	try {
-		const { data } = await axios.get("https://dummyjson.com/recipes");
-		setRecipe(data);
-	} catch (error) {
-		console.error("Failed to load recipes:", error);
-	}
-}
 
 function Home() {
-	const [recipe, setRecipe] = useState(null);
+	const [recipe, setRecipe] = useState([]);
+	const [total, setTotal] = useState(0);
+	async function fetchApi(skip) {
+		try {
+			const { data } = await axios.get(
+				`https://dummyjson.com/recipes?limit=6&skip=${skip}`,
+			);
+			
+			setRecipe((prev)=>[...prev,...data.recipes]);
+			setTotal(data.total);
+			
+		} catch (error) {
+			console.error("Failed to load recipes:", error);
+		}
+	}
+
 	useEffect(() => {
-		fetchApi(setRecipe);
+		fetchApi(0);
 	}, []);
-	
+
 	return (
 		<main className="max-w-6xl mx-auto px-4 py-8">
 			<form className="flex gap-2 max-w-md mx-auto mb-8">
@@ -31,20 +38,22 @@ function Home() {
 				</button>
 			</form>
 
-			{recipe ?
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-					{recipe.recipes.map((recipe) => (
-						<RecipeCard key={recipe.id} recipe={recipe} />
-					))}
-				</div>
-			:	null}
-			<div className="text-center mt-8">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+				{recipe.map((recipe) => (
+					<RecipeCard key={recipe.id} recipe={recipe} />
+				))}
+			</div>
+
+			{recipe.length<total?<div className="text-center mt-8">
 				<button
+					onClick={() => {
+						fetchApi(recipe.length);
+					}}
 					type="button"
 					className="bg-accent hover:bg-accent-hover text-white rounded px-6 py-2 font-medium">
 					Load More
 				</button>
-			</div>
+			</div>:<div className=""></div>}
 		</main>
 	);
 }
