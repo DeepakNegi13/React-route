@@ -58,8 +58,13 @@ function Home() {
 			</form>
 
 			{total === 0 && (
-				<div className="text-center">
-					<h2 className="text-xl font-semibold">No recipes found</h2>
+				<div className="flex flex-col items-center justify-center gap-4 mt-8">
+					
+					<div className="text-center">
+						<h2 className="text-xl font-semibold">
+							No recipes found
+						</h2>
+					</div>
 				</div>
 			)}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
