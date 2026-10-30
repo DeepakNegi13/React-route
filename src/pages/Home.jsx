@@ -10,30 +10,28 @@ function Home() {
 			const { data } = await axios.get(
 				`https://dummyjson.com/recipes?limit=6&skip=${skip}`,
 			);
-			
-			setRecipe((prev)=>[...prev,...data.recipes]);
+
+			setRecipe((prev) => [...prev, ...data.recipes]);
 			setTotal(data.total);
-			
 		} catch (error) {
 			console.error("Failed to load recipes:", error);
 		}
 	}
 
 	async function searchRecipies(query) {
-		try {
-			const { data } = await axios.get(`https://dummyjson.com/recipes/search?q=${query}`);
+		{
+			const { data } = await axios.get(
+				`https://dummyjson.com/recipes/search?q=${query}`,
+			);
 			setRecipe(data.recipes);
 			setTotal(data.total);
-		} catch (error) {
-			console.error("Failed to search recipes:", error);
 		}
 	}
-	
-	function search(e){
+
+	function search(e) {
 		e.preventDefault();
-		const formData = new FormData(e.target)
-		const input = formData.get("query")
-		console.log(input);
+		const formData = new FormData(e.target);
+		const input = formData.get("query");
 		searchRecipies(input);
 	}
 
@@ -43,10 +41,12 @@ function Home() {
 
 	return (
 		<main className="max-w-6xl mx-auto px-4 py-8">
-			<form onSubmit={search} className="flex gap-2 max-w-md mx-auto mb-8">
+			<form
+				onSubmit={search}
+				className="flex gap-2 max-w-md mx-auto mb-8">
 				<input
 					type="text"
-					name = "query"
+					name="query"
 					placeholder="Search recipes..."
 					className="flex-1 border border-border rounded px-3 py-2 bg-card text-text outline-none focus:border-accent"
 				/>
@@ -57,22 +57,29 @@ function Home() {
 				</button>
 			</form>
 
+			{total === 0 && (
+				<div className="text-center">
+					<h2 className="text-xl font-semibold">No recipes found</h2>
+				</div>
+			)}
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 				{recipe.map((recipe) => (
 					<RecipeCard key={recipe.id} recipe={recipe} />
 				))}
 			</div>
 
-			{recipe.length<total?<div className="text-center mt-8">
-				<button
-					onClick={() => {
-						fetchApi(recipe.length);
-					}}
-					type="button"
-					className="bg-accent hover:bg-accent-hover text-white rounded px-6 py-2 font-medium">
-					Load More
-				</button>
-			</div>:<div className=""></div>}
+			{recipe.length < total ?
+				<div className="text-center mt-8">
+					<button
+						onClick={() => {
+							fetchApi(recipe.length);
+						}}
+						type="button"
+						className="bg-accent hover:bg-accent-hover text-white rounded px-6 py-2 font-medium">
+						Load More
+					</button>
+				</div>
+			:	<div className=""></div>}
 		</main>
 	);
 }
