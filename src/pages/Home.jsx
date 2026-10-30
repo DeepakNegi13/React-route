@@ -19,20 +19,39 @@ function Home() {
 		}
 	}
 
+	async function searchRecipies(query) {
+		try {
+			const { data } = await axios.get(`https://dummyjson.com/recipes/search?q=${query}`);
+			setRecipe(data.recipes);
+			setTotal(data.total);
+		} catch (error) {
+			console.error("Failed to search recipes:", error);
+		}
+	}
+	
+	function search(e){
+		e.preventDefault();
+		const formData = new FormData(e.target)
+		const input = formData.get("query")
+		console.log(input);
+		searchRecipies(input);
+	}
+
 	useEffect(() => {
 		fetchApi(0);
 	}, []);
 
 	return (
 		<main className="max-w-6xl mx-auto px-4 py-8">
-			<form className="flex gap-2 max-w-md mx-auto mb-8">
+			<form onSubmit={search} className="flex gap-2 max-w-md mx-auto mb-8">
 				<input
 					type="text"
+					name = "query"
 					placeholder="Search recipes..."
 					className="flex-1 border border-border rounded px-3 py-2 bg-card text-text outline-none focus:border-accent"
 				/>
 				<button
-					type="button"
+					type="submit"
 					className="bg-accent hover:bg-accent-hover text-white rounded px-4 py-2 font-medium">
 					Search
 				</button>
